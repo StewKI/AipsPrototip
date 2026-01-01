@@ -1,0 +1,97 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.home-container h1 {
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.connection-status {
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.connected {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.disconnected {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.error-message {
+  background-color: #fef2f2;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.actions {
+  width: 100%;
+}
+
+.action-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.action-section h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #334155;
+}
+
+.divider {
+  text-align: center;
+  margin: 2rem 0;
+  color: #666;
+  font-weight: 500;
+}
+
+.code-input {
+  width: 200px;
+  padding: 0.75rem 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 0.2em;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.code-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.primary-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.primary-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.primary-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
