@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import * as signalR from '@microsoft/signalr';
 import type { Circle, WhiteboardState } from '../types/whiteboard';
 
-const HUB_URL = 'http://localhost:5120/hubs/whiteboard';
+const HUB_URL = '/hubs/whiteboard';
 
 export function useSignalR() {
   const [isConnected, setIsConnected] = useState(false);
