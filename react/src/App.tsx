@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSignalR } from './hooks/useSignalR';
 import { Home } from './components/Home';
 import { Whiteboard } from './components/Whiteboard';
-import type { Circle, WhiteboardState } from './types/whiteboard';
+import type { DrawingElementType, WhiteboardState } from './types/whiteboard';
 import './App.css';
 
 type View = 'home' | 'whiteboard';
@@ -17,32 +17,35 @@ function App() {
     createWhiteboard,
     joinWhiteboard,
     leaveWhiteboard,
-    drawCircle,
-    onCircleDrawn,
+    drawRectangle,
+    drawLine,
+    drawArrow,
+    drawText,
+    onElementDrawn,
   } = useSignalR();
 
   useEffect(() => {
     if (!whiteboardState) return;
 
-    const unsubscribe = onCircleDrawn((circle: Circle) => {
+    const unsubscribe = onElementDrawn((element: DrawingElementType) => {
       setWhiteboardState((prev) => {
         if (!prev) return prev;
-        if (prev.circles.some((c) => c.id === circle.id)) {
+        if (prev.elements.some((e) => e.id === element.id)) {
           return prev;
         }
         return {
           ...prev,
-          circles: [...prev.circles, circle],
+          elements: [...prev.elements, element],
         };
       });
     });
 
     return unsubscribe;
-  }, [whiteboardState, onCircleDrawn]);
+  }, [whiteboardState, onElementDrawn]);
 
   const handleCreateWhiteboard = useCallback(async () => {
     const code = await createWhiteboard();
-    setWhiteboardState({ code, circles: [] });
+    setWhiteboardState({ code, elements: [] });
     setView('whiteboard');
   }, [createWhiteboard]);
 
@@ -60,18 +63,39 @@ function App() {
     setView('home');
   }, [whiteboardState, leaveWhiteboard]);
 
-  const handleDrawCircle = useCallback(async (x: number, y: number) => {
+  const handleDrawRectangle = useCallback(async (x: number, y: number, width: number, height: number, color: string) => {
     if (whiteboardState) {
-      await drawCircle(whiteboardState.code, x, y);
+      await drawRectangle(whiteboardState.code, x, y, width, height, color);
     }
-  }, [whiteboardState, drawCircle]);
+  }, [whiteboardState, drawRectangle]);
+
+  const handleDrawLine = useCallback(async (x1: number, y1: number, x2: number, y2: number, color: string) => {
+    if (whiteboardState) {
+      await drawLine(whiteboardState.code, x1, y1, x2, y2, color);
+    }
+  }, [whiteboardState, drawLine]);
+
+  const handleDrawArrow = useCallback(async (x1: number, y1: number, x2: number, y2: number, color: string) => {
+    if (whiteboardState) {
+      await drawArrow(whiteboardState.code, x1, y1, x2, y2, color);
+    }
+  }, [whiteboardState, drawArrow]);
+
+  const handleDrawText = useCallback(async (x: number, y: number, content: string, color: string) => {
+    if (whiteboardState) {
+      await drawText(whiteboardState.code, x, y, content, color);
+    }
+  }, [whiteboardState, drawText]);
 
   if (view === 'whiteboard' && whiteboardState) {
     return (
       <Whiteboard
         code={whiteboardState.code}
-        circles={whiteboardState.circles}
-        onDrawCircle={handleDrawCircle}
+        elements={whiteboardState.elements}
+        onDrawRectangle={handleDrawRectangle}
+        onDrawLine={handleDrawLine}
+        onDrawArrow={handleDrawArrow}
+        onDrawText={handleDrawText}
         onLeave={handleLeave}
       />
     );

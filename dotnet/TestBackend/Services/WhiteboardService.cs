@@ -30,25 +30,17 @@ public class WhiteboardService
         return _whiteboards.ContainsKey(code);
     }
 
-    public Circle AddCircle(string whiteboardCode, double x, double y)
+    public DrawingElement AddElement(string whiteboardCode, DrawingElement element)
     {
         if (!_whiteboards.TryGetValue(whiteboardCode, out var whiteboard))
             throw new InvalidOperationException("Whiteboard not found");
 
-        var circle = new Circle(
-            Id: Guid.NewGuid().ToString(),
-            X: x,
-            Y: y,
-            Radius: 20,
-            Color: "#3B82F6"
-        );
-
-        lock (whiteboard.Circles)
+        lock (whiteboard.Elements)
         {
-            whiteboard.Circles.Add(circle);
+            whiteboard.Elements.Add(element);
         }
 
-        return circle;
+        return element;
     }
 
     private static string GenerateCode()

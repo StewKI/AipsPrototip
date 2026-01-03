@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import * as signalR from '@microsoft/signalr';
-import type { Circle, WhiteboardState } from '../types/whiteboard';
+import type { DrawingElementType, WhiteboardState } from '../types/whiteboard';
 
 const HUB_URL = '/hubs/whiteboard';
 
@@ -51,16 +51,31 @@ export function useSignalR() {
     await connectionRef.current.invoke('LeaveWhiteboard', code);
   }, []);
 
-  const drawCircle = useCallback(async (code: string, x: number, y: number): Promise<void> => {
+  const drawRectangle = useCallback(async (code: string, x: number, y: number, width: number, height: number, color: string): Promise<void> => {
     if (!connectionRef.current) throw new Error('Not connected');
-    await connectionRef.current.invoke('DrawCircle', code, x, y);
+    await connectionRef.current.invoke('DrawRectangle', code, x, y, width, height, color);
   }, []);
 
-  const onCircleDrawn = useCallback((callback: (circle: Circle) => void) => {
+  const drawLine = useCallback(async (code: string, x1: number, y1: number, x2: number, y2: number, color: string): Promise<void> => {
+    if (!connectionRef.current) throw new Error('Not connected');
+    await connectionRef.current.invoke('DrawLine', code, x1, y1, x2, y2, color);
+  }, []);
+
+  const drawArrow = useCallback(async (code: string, x1: number, y1: number, x2: number, y2: number, color: string): Promise<void> => {
+    if (!connectionRef.current) throw new Error('Not connected');
+    await connectionRef.current.invoke('DrawArrow', code, x1, y1, x2, y2, color);
+  }, []);
+
+  const drawText = useCallback(async (code: string, x: number, y: number, content: string, color: string): Promise<void> => {
+    if (!connectionRef.current) throw new Error('Not connected');
+    await connectionRef.current.invoke('DrawText', code, x, y, content, color);
+  }, []);
+
+  const onElementDrawn = useCallback((callback: (element: DrawingElementType) => void) => {
     if (!connectionRef.current) return () => {};
-    connectionRef.current.on('CircleDrawn', callback);
+    connectionRef.current.on('ElementDrawn', callback);
     return () => {
-      connectionRef.current?.off('CircleDrawn', callback);
+      connectionRef.current?.off('ElementDrawn', callback);
     };
   }, []);
 
@@ -70,7 +85,10 @@ export function useSignalR() {
     createWhiteboard,
     joinWhiteboard,
     leaveWhiteboard,
-    drawCircle,
-    onCircleDrawn,
+    drawRectangle,
+    drawLine,
+    drawArrow,
+    drawText,
+    onElementDrawn,
   };
 }
