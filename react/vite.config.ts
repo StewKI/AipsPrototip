@@ -9,6 +9,12 @@ export default defineConfig({
             ".ngrok-free.app" 
         ],
         proxy: {
+            "/api/auth": {
+                target: "http://localhost:5120",
+                ws: true,
+                changeOrigin: true,
+                secure: false
+            },
             "/hubs/whiteboard": {
                 target: "http://localhost:5120",
                 ws: true,
