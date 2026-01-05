@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import type { User } from '../types/auth';
 import './Home.css';
 
 interface HomeProps {
   isConnected: boolean;
   error: string | null;
+  user: User | null;
   onCreateWhiteboard: () => Promise<void>;
   onJoinWhiteboard: (code: string) => Promise<void>;
+  onLogout: () => Promise<void>;
 }
 
-export function Home({ isConnected, error, onCreateWhiteboard, onJoinWhiteboard }: HomeProps) {
+export function Home({ isConnected, error, user, onCreateWhiteboard, onJoinWhiteboard, onLogout }: HomeProps) {
   const [joinCode, setJoinCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -43,7 +46,15 @@ export function Home({ isConnected, error, onCreateWhiteboard, onJoinWhiteboard 
 
   return (
     <div className="home-container">
-      <h1>Collaborative Whiteboard</h1>
+      <div className="home-header">
+        <h1>Collaborative Whiteboard</h1>
+        {user && (
+          <div className="user-info">
+            <span>Welcome, {user.userName}!</span>
+            <button onClick={onLogout} className="logout-button">Logout</button>
+          </div>
+        )}
+      </div>
 
       <div className="connection-status">
         Status: {isConnected ?

@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import type { DrawingElementType, ToolType } from '../types/whiteboard';
 import ToolPicker from './ToolPicker';
 import './Whiteboard.css';
+import * as React from "react";
 
 interface WhiteboardProps {
   code: string;

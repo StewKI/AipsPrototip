@@ -2,13 +2,19 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSignalR } from './hooks/useSignalR';
 import { Home } from './components/Home';
 import { Whiteboard } from './components/Whiteboard';
+import { Login } from './components/Login';
+import { Register } from './components/Register';
+import { authService } from './services/authService';
 import type { DrawingElementType, WhiteboardState } from './types/whiteboard';
+import type { User } from './types/auth';
 import './App.css';
 
-type View = 'home' | 'whiteboard';
+type View = 'home' | 'whiteboard' | 'login' | 'register';
 
 function App() {
-  const [view, setView] = useState<View>('home');
+  const [view, setView] = useState<View>('login');
+  const [user, setUser] = useState<User | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [whiteboardState, setWhiteboardState] = useState<WhiteboardState | null>(null);
 
   const {
@@ -23,6 +29,23 @@ function App() {
     drawText,
     onElementDrawn,
   } = useSignalR();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          setView('home');
+        }
+      } catch (err) {
+        console.error('Failed to check auth:', err);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     if (!whiteboardState) return;
@@ -87,6 +110,39 @@ function App() {
     }
   }, [whiteboardState, drawText]);
 
+  const handleAuthSuccess = useCallback((userId: string, userName: string) => {
+    setUser({ userId, userName, email: '' }); // Email isn't returned by login/register but we can fetch it later if needed
+    setView('home');
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    await authService.logout();
+    setUser(null);
+    setView('login');
+  }, []);
+
+  if (isInitializing) {
+    return <div className="loading-screen">Loading...</div>;
+  }
+
+  if (view === 'login') {
+    return (
+      <Login
+        onLoginSuccess={handleAuthSuccess}
+        onSwitchToRegister={() => setView('register')}
+      />
+    );
+  }
+
+  if (view === 'register') {
+    return (
+      <Register
+        onRegisterSuccess={handleAuthSuccess}
+        onSwitchToLogin={() => setView('login')}
+      />
+    );
+  }
+
   if (view === 'whiteboard' && whiteboardState) {
     return (
       <Whiteboard
@@ -105,8 +161,10 @@ function App() {
     <Home
       isConnected={isConnected}
       error={error}
+      user={user}
       onCreateWhiteboard={handleCreateWhiteboard}
       onJoinWhiteboard={handleJoinWhiteboard}
+      onLogout={handleLogout}
     />
   );
 }
