@@ -34,7 +34,7 @@ public sealed class AuthController : ControllerBase
 
         if (result.Succeeded)
         {
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            await _signInManager.SignInAsync(user, isPersistent: true);
             return Ok(new { message = "User registered successfully", userId = user.Id, userName = user.UserName });
         }
 
@@ -51,7 +51,7 @@ public sealed class AuthController : ControllerBase
         if (user == null)
             return Unauthorized(new { message = "Invalid email or password" });
 
-        var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: true);
+        var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: true, lockoutOnFailure: true);
 
         if (result.Succeeded)
         {
