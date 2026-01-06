@@ -13,11 +13,28 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - aips-network
 
+  message-broker:
+    image: rabbitmq:3-management
+    container_name: aips-rabbitmq
+    ports:
+      - "5672:5672"    
+      - "15672:15672"  
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - aips-network
+  
   backend:
     build:
       context: .
@@ -32,6 +49,14 @@ services:
       postgres:
         condition: service_healthy
     restart: unless-stopped
+    networks:
+      - aips-network
+
+networks:
+  aips-network:
+    name: aips-network
 
 volumes:
   postgres_data:
+  rabbitmq_data:
+  rabbitmq_log:
