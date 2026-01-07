@@ -13,7 +13,7 @@ public record WhiteboardCode(string CodeValue) : AbstractValueObject
     {
         return
         [
-            new ExactLength(CodeValue, 8),
+            new ExactLength(CodeValue, CodeLength),
             new WhitebordCodeCharsetRule(CodeValue)
         ];
     }
