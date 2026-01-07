@@ -19,6 +19,8 @@ services:
     command: dotnet watch run --project TestBackend --urls http://0.0.0.0:8080
     volumes:
       - ../dotnet:/src
+      - backend_obj:/src/TestBackend/obj
+      - backend_bin:/src/TestBackend/bin
 
 #  worker:
 #    image: mcr.microsoft.com/dotnet/sdk:10.0
@@ -27,6 +29,12 @@ services:
 #    command: dotnet watch run --project TestWorker
 #    volumes:
 #      - ../dotnet:/src
+#      - worker_obj:/src/TestWorker/obj
+#      - worker_bin:/src/TestWorker/bin
 
 volumes:
   frontend_node_modules:
+  backend_obj:
+  backend_bin:
+#  worker_obj:
+#  worker_bin:
