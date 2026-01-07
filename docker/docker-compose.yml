@@ -1,4 +1,4 @@
-version: '3.8'
+name: aips
 
 services:
   postgres:
@@ -20,24 +20,29 @@ services:
     networks:
       - aips-network
 
-  message-broker:
+  rabbitmq:
     image: rabbitmq:3-management
-    container_name: aips-rabbitmq
+    container_name: aips_rabbitmq
     ports:
-      - "5672:5672"    
-      - "15672:15672"  
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - rabbitmq_log:/var/log/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - aips-network
-  
+
   backend:
     build:
-      context: .
+      context: ../dotnet
       dockerfile: TestBackend/Dockerfile
     container_name: aips_backend
     environment:
@@ -48,6 +53,38 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - aips-network
+
+  worker:
+    build:
+      context: ../dotnet
+      dockerfile: TestWorker/Dockerfile
+    container_name: aips_worker
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_PASS=${RABBITMQ_DEFAULT_PASS}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - aips-network
+
+  frontend:
+    build:
+      context: ../react
+      dockerfile: Dockerfile
+    container_name: aips_frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
     restart: unless-stopped
     networks:
       - aips-network
