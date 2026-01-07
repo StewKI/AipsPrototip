@@ -6,6 +6,6 @@ public record DomainId(string IdValue) : AbstractValueObject
 {
     protected override ICollection<AbstractRule> GetValidationRules()
     {
-        throw new NotImplementedException();
+        return [];
     }
 }

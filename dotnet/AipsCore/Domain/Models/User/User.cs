@@ -5,11 +5,11 @@ namespace AipsCore.Domain.Models.User;
 
 public class User
 {
-    public DomainId Id { get; private set; }
+    public UserId Id { get; private set; }
     public Email Email { get; private set; }
     public Username Username { get; private set; }
 
-    public User(DomainId id, Email email, Username username)
+    public User(UserId id, Email email, Username username)
     {
         Id = id;
         Email = email;
