@@ -20,25 +20,25 @@ services:
     networks:
       - aips-network
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: aips_rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-      - rabbitmq_log:/var/log/rabbitmq
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - aips-network
+#  rabbitmq:
+#    image: rabbitmq:3-management
+#    container_name: aips_rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    environment:
+#      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+#      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+#    volumes:
+#      - rabbitmq_data:/var/lib/rabbitmq
+#      - rabbitmq_log:/var/log/rabbitmq
+#    healthcheck:
+#      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - aips-network
 
   backend:
     build:
@@ -57,22 +57,22 @@ services:
     networks:
       - aips-network
 
-  worker:
-    build:
-      context: ../dotnet
-      dockerfile: TestWorker/Dockerfile
-    container_name: aips_worker
-    environment:
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_PASS=${RABBITMQ_DEFAULT_PASS}
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    restart: unless-stopped
-    networks:
-      - aips-network
+#  worker:
+#    build:
+#      context: ../dotnet
+#      dockerfile: TestWorker/Dockerfile
+#    container_name: aips_worker
+#    environment:
+#      - RABBITMQ_HOST=rabbitmq
+#      - RABBITMQ_PORT=5672
+#      - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
+#      - RABBITMQ_PASS=${RABBITMQ_DEFAULT_PASS}
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#    restart: unless-stopped
+#    networks:
+#      - aips-network
 
   frontend:
     build:

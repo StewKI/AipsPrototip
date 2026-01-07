@@ -1,0 +1,32 @@
+services:
+  frontend:
+    image: node:22-alpine
+    container_name: aips_frontend
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../react:/app
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    container_name: aips_backend
+    working_dir: /src
+    command: dotnet watch run --project TestBackend --urls http://0.0.0.0:8080
+    volumes:
+      - ../dotnet:/src
+
+#  worker:
+#    image: mcr.microsoft.com/dotnet/sdk:10.0
+#    container_name: aips_worker
+#    working_dir: /src
+#    command: dotnet watch run --project TestWorker
+#    volumes:
+#      - ../dotnet:/src
+
+volumes:
+  frontend_node_modules:

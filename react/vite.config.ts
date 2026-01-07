@@ -10,13 +10,13 @@ export default defineConfig({
         ],
         proxy: {
             "/api/auth": {
-                target: "http://localhost:5120",
+                target: "http://backend:8080",
                 ws: true,
                 changeOrigin: true,
                 secure: false
             },
             "/hubs/whiteboard": {
-                target: "http://localhost:5120",
+                target: "http://backend:8080",
                 ws: true,
                 changeOrigin: true,
                 secure: false

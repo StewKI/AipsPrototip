@@ -1,43 +1,79 @@
 # Collaborative Whiteboard
 
-Ej Veljko, ovo ti je ona app za real-time crtanje krugova. Kliknes negde na canvas i svi koji su ulogovani na isti whiteboard vide krug odmah.
-
-## Kako radi
-
-1. Napravis whiteboard - dobijes 8-cifreni kod
-2. Podelis kod sa nekim
-3. Oni udju sa tim kodom
-4. Svi klikcu i crtaju krugove, svi vide sve u realnom vremenu
-
-## Pokretanje
-
-Treba ti 2 terminala.
-
-### Terminal 1 - Backend (.NET)
-
-```bash
-cd dotnet/TestBackend
-dotnet run
-```
-
-Radi na `http://localhost:5120`
-
-### Terminal 2 - Frontend (React)
-
-```bash
-cd react
-npm install   # samo prvi put
-npm run dev
-```
-
-Otvori `http://localhost:5173` u browseru.
-
-## Testiranje
-
-Otvori 2 taba (ili 2 browsera), u jednom napravi whiteboard, kopiraj kod, u drugom unesu kod i udji. Klikci po canvasu i gledaj magiju.
+Real-time whiteboard aplikacija. Napravis whiteboard, podelis kod, i svi crtaju zajedno.
 
 ## Tech stack
 
-- Backend: .NET 9 + SignalR
-- Frontend: React 19 + TypeScript + Vite
-- Komunikacija: WebSocket preko SignalR
+- **Backend**: .NET 10 + SignalR + Entity Framework Core
+- **Frontend**: React 19 + TypeScript + Vite
+- **Database**: PostgreSQL 16
+- **Infrastructure**: Docker, Portainer
+
+## Pokretanje (Docker)
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Development (sa hot reload)
+
+```bash
+cd docker
+docker compose up
+```
+
+Ovo pokrece:
+| Servis | URL | Opis |
+|--------|-----|------|
+| Frontend | http://localhost:5173 | Vite dev server (HMR) |
+| Backend | http://localhost:5120 | .NET sa `dotnet watch` |
+| PostgreSQL | localhost:5432 | Database |
+| Portainer | http://localhost:9000 | Container management UI |
+
+Edituj kod -> promene se automatski primenjuju.
+
+### Production
+
+```bash
+cd docker
+docker compose -f docker-compose.yml up
+```
+
+Frontend je na http://localhost:3000 (nginx).
+
+### Environment variables
+
+Kopiraj `.env.example` u `.env` i podesi vrednosti:
+
+```bash
+cd docker
+cp .env.example .env
+```
+
+## Struktura projekta
+
+```
+AipsPrototip/
+├── docker/
+│   ├── docker-compose.yml          # Production setup
+│   ├── docker-compose.override.yml # Dev overrides (auto-merged)
+│   ├── nginx.conf                  # Frontend proxy config
+│   └── .env                        # Environment variables
+├── dotnet/
+│   ├── TestBackend/                # API + SignalR hub
+│   └── TestWorker/                 # Background worker (RabbitMQ)
+└── react/                          # Frontend app
+```
+
+## Kako radi
+
+1. Registruj se / uloguj se
+2. Napravi whiteboard - dobijes 8-cifreni kod
+3. Podeli kod sa nekim
+4. Oni udju sa tim kodom
+5. Svi crtaju (pravougaonici, linije, strelice, tekst), svi vide sve u realnom vremenu
+
+## Testiranje
+
+Otvori 2 taba, u jednom napravi whiteboard, kopiraj kod, u drugom unesi kod i udji. Crtaj i gledaj magiju.
