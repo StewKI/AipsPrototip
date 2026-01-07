@@ -89,6 +89,18 @@ services:
     networks:
       - aips-network
 
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: aips_portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+    networks:
+      - aips-network
+
 networks:
   aips-network:
     name: aips-network
@@ -97,3 +109,4 @@ volumes:
   postgres_data:
   rabbitmq_data:
   rabbitmq_log:
+  portainer_data:
