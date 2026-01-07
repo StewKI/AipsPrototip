@@ -5,10 +5,17 @@ using AipsCore.Domain.Models.Whiteboard.Validation;
 
 namespace AipsCore.Domain.Models.Whiteboard.ValueObjects;
 
-public record WhiteboardCode(string CodeValue) : AbstractValueObject
+public record WhiteboardCode : AbstractValueObject
 {
-    private const int CodeLength = 8;
+    public string CodeValue { get; init; }
     
+    public WhiteboardCode(string CodeValue)
+    {
+        this.CodeValue = CodeValue;
+    }
+
+    private const int CodeLength = 8;
+
     protected override ICollection<AbstractRule> GetValidationRules()
     {
         return

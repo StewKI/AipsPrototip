@@ -5,11 +5,19 @@ using AipsCore.Domain.Models.User.Validation;
 
 namespace AipsCore.Domain.Models.User.ValueObjects;
 
-public record Username(string UsernameValue) : AbstractValueObject
+public record Username : AbstractValueObject
 {
+    public string UsernameValue { get; init; }
+    
+    public Username(string UsernameValue)
+    {
+        this.UsernameValue = UsernameValue;
+        Validate();
+    }
+
     private const int MinimumLength = 8;
     private const int MaximumLength = 20;
-    
+
     protected override ICollection<AbstractRule> GetValidationRules()
     {
         return
