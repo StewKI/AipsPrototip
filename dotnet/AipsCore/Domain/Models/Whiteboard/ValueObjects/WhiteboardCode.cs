@@ -12,6 +12,7 @@ public record WhiteboardCode : AbstractValueObject
     public WhiteboardCode(string CodeValue)
     {
         this.CodeValue = CodeValue;
+        Validate();
     }
 
     private const int CodeLength = 8;
