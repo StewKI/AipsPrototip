@@ -3,11 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBackend", "TestBackend\TestBackend.csproj", "{8C14D160-4C21-47D6-AF6A-5B8AAFF3C0E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0259F3A-496C-4A5E-8D6D-D134F2A9E3D4}"
-	ProjectSection(SolutionItems) = preProject
-		compose.yaml = compose.yaml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWorker", "TestWorker\TestWorker.csproj", "{8CFA01B7-7BA4-483F-91B1-D78CF6D11671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AipsCore", "AipsCore\AipsCore.csproj", "{C2EAA516-A045-4525-9A47-4AA8198FD104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,5 +22,9 @@ Global
 		{8CFA01B7-7BA4-483F-91B1-D78CF6D11671}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CFA01B7-7BA4-483F-91B1-D78CF6D11671}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CFA01B7-7BA4-483F-91B1-D78CF6D11671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2EAA516-A045-4525-9A47-4AA8198FD104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2EAA516-A045-4525-9A47-4AA8198FD104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2EAA516-A045-4525-9A47-4AA8198FD104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2EAA516-A045-4525-9A47-4AA8198FD104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
