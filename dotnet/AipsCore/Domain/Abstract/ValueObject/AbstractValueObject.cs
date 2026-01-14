@@ -1,7 +1,7 @@
 ﻿using AipsCore.Domain.Abstract.Rule;
 using AipsCore.Domain.Common.Validation;
 
-namespace AipsCore.Domain.Abstract;
+namespace AipsCore.Domain.Abstract.ValueObject;
 
 public abstract record AbstractValueObject
 {

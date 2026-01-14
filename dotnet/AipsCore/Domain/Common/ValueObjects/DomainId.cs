@@ -1,5 +1,6 @@
 ﻿using AipsCore.Domain.Abstract;
 using AipsCore.Domain.Abstract.Rule;
+using AipsCore.Domain.Abstract.ValueObject;
 using AipsCore.Domain.Common.Validation;
 
 namespace AipsCore.Domain.Common.ValueObjects;
