@@ -1,4 +1,5 @@
 ﻿using AipsCore.Domain.Abstract;
+using AipsCore.Domain.Abstract.Rule;
 using AipsCore.Domain.Common.Validation;
 using AipsCore.Domain.Common.Validation.Rules;
 using AipsCore.Domain.Common.ValueObjects;
@@ -18,7 +19,7 @@ public record WhiteboardCode : AbstractValueObject
 
     private const int CodeLength = 8;
 
-    protected override ICollection<AbstractRule> GetValidationRules()
+    protected override ICollection<IRule> GetValidationRules()
     {
         return
         [

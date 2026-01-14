@@ -1,10 +1,11 @@
-﻿using AipsCore.Domain.Common.Validation;
+﻿using AipsCore.Domain.Abstract.Rule;
+using AipsCore.Domain.Common.Validation;
 
 namespace AipsCore.Domain.Abstract;
 
 public abstract record AbstractValueObject
 {
-    protected abstract ICollection<AbstractRule> GetValidationRules();
+    protected abstract ICollection<IRule> GetValidationRules();
 
     protected void Validate()
     {

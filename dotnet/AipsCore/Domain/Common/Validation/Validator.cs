@@ -1,13 +1,14 @@
 ﻿using AipsCore.Domain.Abstract;
+using AipsCore.Domain.Abstract.Rule;
 
 namespace AipsCore.Domain.Common.Validation;
 
 public class Validator
 {
-    private readonly ICollection<AbstractRule> _validationRules;
+    private readonly ICollection<IRule> _validationRules;
     private readonly string _valueObjectName;
 
-    public Validator(ICollection<AbstractRule> validationRules, string valueObjectName)
+    public Validator(ICollection<IRule> validationRules, string valueObjectName)
     {
         _validationRules = validationRules;
         _valueObjectName = valueObjectName;

@@ -1,4 +1,5 @@
 ﻿using AipsCore.Domain.Abstract;
+using AipsCore.Domain.Abstract.Rule;
 using AipsCore.Domain.Common.Validation;
 using AipsCore.Domain.Common.Validation.Rules;
 
@@ -14,7 +15,7 @@ public record Email : AbstractValueObject
         Validate();
     }
 
-    protected override ICollection<AbstractRule> GetValidationRules()
+    protected override ICollection<IRule> GetValidationRules()
     {
         return
         [

@@ -1,8 +1,8 @@
 ﻿using AipsCore.Domain.Common.Validation;
 
-namespace AipsCore.Domain.Abstract;
+namespace AipsCore.Domain.Abstract.Rule;
 
-public abstract class AbstractRule
+public abstract class AbstractRule : IRule
 {
     protected abstract string ErrorCode { get; }
     protected abstract string ErrorMessage { get; }

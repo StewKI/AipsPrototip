@@ -1,4 +1,5 @@
 ﻿using AipsCore.Domain.Abstract;
+using AipsCore.Domain.Abstract.Rule;
 
 namespace AipsCore.Domain.Common.Validation.Rules;
 
