@@ -1,4 +1,6 @@
-﻿namespace AipsCore.Domain.Common.Validation;
+﻿using AipsCore.Domain.Abstract;
+
+namespace AipsCore.Domain.Common.Validation;
 
 public class Validator
 {

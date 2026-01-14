@@ -9,7 +9,6 @@
     <ItemGroup>
       <Folder Include="Application\Commands\" />
       <Folder Include="Application\Queries\" />
-      <Folder Include="Domain\Common\Exceptions\" />
     </ItemGroup>
 
 </Project>

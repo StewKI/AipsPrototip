@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using AipsCore.Domain.Abstract;
 
 namespace AipsCore.Domain.Common.Validation.Rules;
 

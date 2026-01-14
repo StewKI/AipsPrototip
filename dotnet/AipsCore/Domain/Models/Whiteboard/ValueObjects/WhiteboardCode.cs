@@ -1,4 +1,5 @@
-﻿using AipsCore.Domain.Common.Validation;
+﻿using AipsCore.Domain.Abstract;
+using AipsCore.Domain.Common.Validation;
 using AipsCore.Domain.Common.Validation.Rules;
 using AipsCore.Domain.Common.ValueObjects;
 using AipsCore.Domain.Models.Whiteboard.Validation;

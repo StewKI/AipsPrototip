@@ -1,4 +1,6 @@
-﻿namespace AipsCore.Domain.Common.Validation.Rules;
+﻿using AipsCore.Domain.Abstract;
+
+namespace AipsCore.Domain.Common.Validation.Rules;
 
 public abstract class AbstractCharsetRule : AbstractRule
 {
