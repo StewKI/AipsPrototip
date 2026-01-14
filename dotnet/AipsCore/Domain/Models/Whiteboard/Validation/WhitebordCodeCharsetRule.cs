@@ -3,7 +3,7 @@ using AipsCore.Utility.Text;
 
 namespace AipsCore.Domain.Models.Whiteboard.Validation;
 
-public class WhitebordCodeCharsetRule : AbstractCharsetRule
+public class WhitebordCodeCharsetRule : CharsetRule
 {
     public WhitebordCodeCharsetRule(string stringValue)
         : base(stringValue, GetWhiteboardCodeCharset())

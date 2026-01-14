@@ -3,7 +3,7 @@ using AipsCore.Utility.Text;
 
 namespace AipsCore.Domain.Models.User.Validation;
 
-public class UsernameCharsetRule : AbstractCharsetRule
+public class UsernameCharsetRule : CharsetRule
 {
     public UsernameCharsetRule(string stringValue) 
         : base(stringValue, GetUsernameCharset())
